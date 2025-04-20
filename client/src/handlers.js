@@ -1,5 +1,5 @@
 const calldatabase = async (query) => {
-    const response = await fetch('/api/execute-query', {
+    const response = await fetch('http://localhost:3000/api/execute-query', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

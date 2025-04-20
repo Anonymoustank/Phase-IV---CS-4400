@@ -6,6 +6,17 @@ const app = express();
 
 app.use(express.json());
 
+const cors = require('cors');
+
+app.use(cors()); // Allow all origins by default
+
+// OR: Allow only React dev server
+app.use(cors({
+  origin: 'http://localhost:3001',
+  credentials: true
+}));
+
+
 // credentials are stored in credentials.txt with the following format
 /**
 host=localhost
@@ -46,6 +57,12 @@ function loadCredentials() {
 
 // Database connection configuration
 const dbConfig = loadCredentials();
+console.log(dbConfig);
+
+var millisecondsToWait = 500;
+setTimeout(function() {
+    // Whatever you want to do after the wait
+}, millisecondsToWait);
 
 
 // Create a connection pool
