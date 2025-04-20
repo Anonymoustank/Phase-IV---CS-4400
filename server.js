@@ -52,15 +52,37 @@ const dbConfig = loadCredentials();
 const pool = mysql.createPool(dbConfig);
 
 // Example endpoint to get users
-app.get('/api/airline', async (req, res) => {
-  try {
-    const [rows] = await pool.query('SELECT * FROM airplane');
-    res.json(rows);
-  } catch (error) {
-    console.error('Database error:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
+app.post('/api/execute-query', async (req, res) => {
+    const { query } = req.body;
+    
+    if (!query) {
+      return res.status(400).json({ error: 'SQL query is required' });
+    }
+    
+    try {
+      const [results] = await pool.query(query);
+      res.json({ success: true, results });
+    } catch (error) {
+      console.error('Query execution error:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: error.message 
+      });
+    }
 });
+
+// how you should do this in the frontend:
+
+// const query = "select * from airline"
+// const response = await fetch('/api/execute-query', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({ query })
+//   });
+  
+//   const data = await response.json();
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
