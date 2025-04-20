@@ -1,0 +1,84 @@
+/* Basic reset */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  padding: 20px;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+.column {
+  flex: 1;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  background-color: white;
+}
+
+.left {
+  background-color: #f0f4ff;
+  overflow-y:auto;
+}
+
+.right {
+  background-color: #fff8f0;
+}
+
+.button_container {
+  overflow-y:auto;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+}
+
+
+.popup-button {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.popup-content {
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Overlay / Backdrop when popup is open */
+.popup-overlay {
+  background: rgba(0, 0, 0, 0.4) !important; /* Dark semi-transparent overlay */
+  z-index: 1000; /* Make sure it's above everything */
+}
