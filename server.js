@@ -9,7 +9,7 @@ app.use(express.json());
 host=localhost
 user=username
 password=password
-database=mydb
+database=airline_management
  * 
  */
 
