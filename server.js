@@ -1,4 +1,6 @@
-const express = require('express');
+const express = require('express'); // START THIS WITH NPM RUN DEV
+const fs = require('fs');
+const path = require('path');
 const mysql = require('mysql2/promise');
 const app = express();
 
@@ -9,7 +11,7 @@ app.use(express.json());
 host=localhost
 user=username
 password=password
-database=airline_management
+database=flight_tracking
  * 
  */
 
@@ -50,12 +52,18 @@ const dbConfig = loadCredentials();
 const pool = mysql.createPool(dbConfig);
 
 // Example endpoint to get users
-app.get('/api/users', async (req, res) => {
+app.get('/api/airline', async (req, res) => {
   try {
-    const [rows] = await pool.query('SELECT * FROM users');
+    const [rows] = await pool.query('SELECT * FROM airplane');
     res.json(rows);
   } catch (error) {
     console.error('Database error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+//   console.log('Using database config:', dbConfig);
 });
