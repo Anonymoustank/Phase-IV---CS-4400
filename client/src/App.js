@@ -1,12 +1,8 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from 'react';import './App.css';
 import Popup from 'reactjs-popup';
 
-import AddAirplaneForm from './components/AddAirplane';
-import AddAirportForm from './components/AddAirport';
-import AddPersonForm from './components/AddPersonForm';
-
 import { 
+  calldatabase,
   handleAirplaneSubmit, 
   handleAirportSubmit, 
   handlePersonSubmit, 
@@ -20,7 +16,10 @@ import {
   handleRecycleCrewSubmit,
   handleRetireFlightSubmit,
   handleSimulationCycleSubmit
-} from './handlers';
+} from './procedureHandlers';
+import AddAirplaneForm from './components/AddAirplane';
+import AddAirportForm from './components/AddAirport';
+import AddPersonForm from './components/AddPersonForm';
 import GrantOrRevokePilotLicense from './components/GrantOrRevokePilotLicense';
 import OfferFlight from './components/OfferFlight';
 import FlightLanding from './components/FlightLanding';
@@ -32,8 +31,34 @@ import RecycleCrew from './components/RecycleCrew';
 import RetireFlight from './components/RetireFlight';
 import SimulationCycle from './components/SimulationCycle';
 
+import DataTable from './datatable';
 
 function App() {
+  // -------- View Variables -------- //
+  const [data, setData] = useState([]);
+  
+  // -------- End of View Variables -------- //
+  
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+
+  const getView = async (query) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await calldatabase(query)
+      console.log(response)
+      setData(response['results'])
+    } catch (err) {
+      console.error('Error fetching airlines:', err);
+      setError('Failed to load airlines data.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
 
   return (
     <div className="container">
@@ -253,7 +278,115 @@ function App() {
 
       <div className="column right">
         <h2>View Info</h2>
-        <p>This is the right column. Great for main content, text, or forms.</p>
+        <Popup
+            trigger={<button className="popup-button">View Flights on the Ground</button>}
+            modal
+            nested
+            onOpen={() => getView('select * from flights_on_the_ground;')}
+            contentStyle={{
+              width: '90%',
+              maxWidth: '1200px',
+              padding: '20px',
+              overflow: 'auto'
+            }}
+          >
+            {() => (
+              <div>
+                <h3>Flights on the Ground</h3>
+                {loading && <p>Loading...</p>}
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                <DataTable data={data} />
+              </div>
+            )}
+          </Popup>
+
+          <Popup
+            trigger={<button className="popup-button">View People in the Air</button>}
+            modal
+            nested
+            onOpen={() => getView('select * from people_in_the_air;')}
+            contentStyle={{
+              width: '90%',
+              maxWidth: '1200px',
+              padding: '20px',
+              overflow: 'auto'
+            }}
+          >
+            {() => (
+              <div>
+                <h3>People in the Air</h3>
+                {loading && <p>Loading...</p>}
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                <DataTable data={data} />
+              </div>
+            )}
+          </Popup>
+
+          <Popup
+            trigger={<button className="popup-button">View People on the Ground</button>}
+            modal
+            nested
+            onOpen={() => getView('select * from people_on_the_ground;')}
+            contentStyle={{
+              width: '90%',
+              maxWidth: '1200px',
+              padding: '20px',
+              overflow: 'auto'
+            }}
+          >
+            {() => (
+              <div>
+                <h3>People on the Ground</h3>
+                {loading && <p>Loading...</p>}
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                <DataTable data={data} />
+              </div>
+            )}
+          </Popup>
+
+          <Popup
+            trigger={<button className="popup-button">View Route Summary</button>}
+            modal
+            nested
+            onOpen={() => getView('select * from route_summary;')}
+            contentStyle={{
+              width: '90%',
+              maxWidth: '1200px',
+              padding: '20px',
+              overflow: 'auto'
+            }}
+          >
+            {() => (
+              <div>
+                <h3>Route Summary</h3>
+                {loading && <p>Loading...</p>}
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                <DataTable data={data} />
+              </div>
+            )}
+          </Popup>
+
+          <Popup
+            trigger={<button className="popup-button">View Alternate Airports</button>}
+            modal
+            nested
+            onOpen={() => getView('select * from alternative_airports;')}
+            contentStyle={{
+              width: '90%',
+              maxWidth: '1200px',
+              padding: '20px',
+              overflow: 'auto'
+            }}
+          >
+            {() => (
+              <div>
+                <h3>Alternate Airports</h3>
+                {loading && <p>Loading...</p>}
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                <DataTable data={data} />
+              </div>
+            )}
+          </Popup>
       </div>
     </div>
   );

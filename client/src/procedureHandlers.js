@@ -1,4 +1,7 @@
-const calldatabase = async (query) => {
+export const calldatabase = async (query) => {
+    query = query.replace(/\s+/g, ' ').trim();
+
+    console.log(query);
     const response = await fetch('http://localhost:3000/api/execute-query', {
         method: 'POST',
         headers: {
@@ -8,7 +11,7 @@ const calldatabase = async (query) => {
       });
       
       const data = await response.json();
-      console.log(data.results[0]);      
+      return data;
 }
 
 
