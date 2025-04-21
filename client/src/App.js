@@ -53,7 +53,7 @@ function App() {
       setData(response['results'])
     } catch (err) {
       console.error('Error fetching airlines:', err);
-      setError('Failed to load airlines data.');
+      setError('Failed to load data. Check your connection to the database server.');
     } finally {
       setLoading(false);
     }
