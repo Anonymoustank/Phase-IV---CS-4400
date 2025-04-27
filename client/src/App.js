@@ -64,6 +64,7 @@ function App() {
     <div className="container">
       <div className="column left">
         <h2>Procedures</h2>
+        <h3>Note: Use 1 for True, 0 for False when entering boolean statements</h3>
         <div>
           <Popup
             trigger={<button className="popup-button">Add Airplane</button>}
