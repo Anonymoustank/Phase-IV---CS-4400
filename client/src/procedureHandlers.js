@@ -1,6 +1,7 @@
 export const calldatabase = async (query) => {
     query = query.replace(/\s+/g, ' ').trim();
     query = query.replace(/,\s*\)/, ')'); // remove trailing comma at the end of queries
+    query = query.replace(/''/g, 'NULL');
 
     console.log(query);
     const response = await fetch('http://localhost:3000/api/execute-query', {
