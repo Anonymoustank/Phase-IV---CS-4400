@@ -300,6 +300,28 @@ function App() {
               </div>
             )}
           </Popup>
+        
+          <Popup
+            trigger={<button className="popup-button">View Flights in the Air</button>}
+            modal
+            nested
+            onOpen={() => getView('select * from flights_in_the_air;')}
+            contentStyle={{
+              width: '90%',
+              maxWidth: '1200px',
+              padding: '20px',
+              overflow: 'auto'
+            }}
+          >
+            {() => (
+              <div>
+                <h3>Flights in the Air</h3>
+                {loading && <p>Loading...</p>}
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                <DataTable data={data} />
+              </div>
+            )}
+          </Popup>
 
           <Popup
             trigger={<button className="popup-button">View People in the Air</button>}
